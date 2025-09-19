@@ -2,8 +2,15 @@
 
 package chatapppoe1;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 
 public class Login {
+    
+    
+     private String registeredUsername;
+     private String registeredPassword;
     
     //Check Username Method
     
@@ -13,7 +20,7 @@ public class Login {
         
         }
     
-        
+           
     //Check Password Method
         
         public boolean checkPasswordComplexity (String password) {
@@ -50,27 +57,32 @@ public class Login {
         if (!checkPasswordComplexity(password)) {
             return "Password is not correctly formatted, please ensure it contains at least 8 characters, an uppercase letter, a number, and a special character.";
         }
+        
+                    this.registeredUsername = userName;
+                    this.registeredPassword = password;
+        
         return "Username and password successfully captured";
         
         }
         
         
-    //Checks if the user has entered the right login details    
+    //Checks if the user has entered the right login details  
+        
         
         public boolean loginUser (String loginUsername, String loginPassword) {
-        
-           return loginUsername.equals(userName) && loginPassword.equals(password); 
+            
+           return loginUsername.equals(registeredUsername) && loginPassword.equals(registeredPassword); 
             
         }
         
         
     //This method checks if the right message is displayed when the user tries to login
         
-        public String returnLoginStatus (String userName, String password) {
+        public String returnLoginStatus (String loginUsername, String loginPassword, String firstName, String lastName) {
         
-        if (loginUsername.equals(userName) && loginPassword.equals(password)) {
+        if (loginUser(loginUsername, loginPassword)) {
             
-            return "Welcome " + loginUsername + ", it is great to see you again.";}
+            return "Welcome " + firstName + ", " + lastName + ", it is great to see you again.";}
         
         else { return "Username or password incorrect, please try again."; }
             
