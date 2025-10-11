@@ -4,6 +4,7 @@ package chatapppoe1;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import javax.swing.JOptionPane;
 
 public class ChatAppPoe1 {
 
@@ -18,6 +19,7 @@ public class ChatAppPoe1 {
         String password;
         String loginUsername;
         String loginPassword;
+        String startApp;
         
         Scanner input = new Scanner(System.in); //Scanner, this allows the user to input need informaation
             
@@ -124,8 +126,28 @@ public class ChatAppPoe1 {
         
                     }
         
+        //3. Application Excution
         
+            System.out.println("\n--- Press ENTER to start QuickChat :) ---\n");
+        
+                while (true) {
+                    
+                    startApp = input.nextLine();
+                    
+                    if (startApp.trim().isEmpty()) {
+                        System.out.println("Loading QuickChat");
+                        break;
+                    } else {
+                        System.out.println("Invalid input");
+                    }
+                    
+                    input.close();
+   
+                  
+            
+        }
     
+                JOptionPane.showMessageDialog(null, "Welcome to QuickChat.");
     
 }
 
