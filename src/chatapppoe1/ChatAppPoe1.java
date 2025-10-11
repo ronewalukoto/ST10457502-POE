@@ -19,7 +19,15 @@ public class ChatAppPoe1 {
         String password;
         String loginUsername;
         String loginPassword;
+    
+    //Variable declarations for in App use
+
         String startApp;
+        String menu = "--- Welcome to QuickChat. ---\n"
+                + "1. Send Messages\n"
+                + "2. Recent Sent Messages\n"
+                + "3. Quit";
+        
         
         Scanner input = new Scanner(System.in); //Scanner, this allows the user to input need informaation
             
@@ -135,21 +143,35 @@ public class ChatAppPoe1 {
                     startApp = input.nextLine();
                     
                     if (startApp.trim().isEmpty()) {
-                        System.out.println("Loading QuickChat");
+                        System.out.println("QuickChat Open, You can minimize this window");
                         break;
                     } else {
                         System.out.println("Invalid input");
                     }
                     
-                    input.close();
-   
-                  
-            
-        }
+                            }
+                
+                input.close();
     
-                JOptionPane.showMessageDialog(null, "Welcome to QuickChat.");
+                while (true) {
+
+            String input2 = JOptionPane.showInputDialog(null, menu);
+
+                if (input2.equals("1")) {
+                    int numbTexts = Integer.parseInt(JOptionPane.showInputDialog(null, "How many messages would you like to send ? "));
+                }
+                else if (input2.equals("2")) {
+                    JOptionPane.showMessageDialog(null, "Coming Soon!");
+                }
+                else if (input2.equals("3")) {
+                    JOptionPane.showMessageDialog(null, "Exiting QuickChat. Goodbye!");
+                    break;
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Invalid choice! Please type 1, 2, or 3.");
     
-}
+                }
+                                }
 
     /*
     References:
@@ -164,7 +186,27 @@ public class ChatAppPoe1 {
     
     
  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
+    }
     
     
     
