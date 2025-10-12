@@ -1,6 +1,7 @@
 
 package chatapppoe1;
 
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -151,27 +152,146 @@ public class ChatAppPoe1 {
                     
                             }
                 
-                input.close();
-    
-                while (true) {
+                
+                
+
+        Random messID = new Random();
+        int numbTexts = 0;
+
+        while (true) {
 
             String input2 = JOptionPane.showInputDialog(null, menu);
 
-                if (input2.equals("1")) {
-                    int numbTexts = Integer.parseInt(JOptionPane.showInputDialog(null, "How many messages would you like to send ? "));
+            if (input2.equals("1")) {
+
+                numbTexts = Integer.parseInt(
+                        JOptionPane.showInputDialog(null, "How many messages would you like to send?")
+                );
+
+                String allMessages = "";
+                int totalChars = 0; // <-- Counter for total characters
+
+                for (int i = 1; i <= numbTexts; i++) {
+
+                    // 1. Make 10 digit ID
+                    String messageID = "";
+                    for (int j = 0; j < 10; j++) {
+                        int num = messID.nextInt(10);
+                        messageID = messageID + num;
+                    }
+
+                    // 2. Enter recipient first
+                    String recipient = JOptionPane.showInputDialog(null, "Enter recipient phone number (max 10 digits):");
+
+                    // 3. Enter message text
+                    String message = JOptionPane.showInputDialog(null, "Enter message " + i + ":");
+
+                    // 4. Make message hash
+                    String[] parts = message.split(" ");
+                    String firstWord = parts[0].toUpperCase();
+                    String lastWord = parts[parts.length - 1].toUpperCase();
+                    String messageHash = messageID.substring(0, 2) + ":" + i + " " + firstWord + " " + lastWord;
+
+                    // Validation in order: messageID → messageHash → recipient → message
+
+                    // a) Check messageID
+                    if (messageID.length() != 10) {
+                        JOptionPane.showMessageDialog(null, "Invalid message ID!");
+                        i--; // redo this message
+                        continue;
+                    }
+
+                    // b) Check messageHash
+                    if (messageHash.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Message hash is empty!");
+                        i--;
+                        continue;
+                    }
+
+                    // c) Check recipient
+                    if (recipient.length() > 10 || recipient.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Invalid number. Please enter 1-10 digits.");
+                        i--; // redo this message
+                        continue;
+                    }
+
+                    // d) Check actual message
+                    if (message.length() > 250 || message.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Please enter a message of 1-250 characters.");
+                        i--; // redo this message
+                        continue;
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Message " + i + " saved!");
+
+                    // Add message to allMessages
+                    allMessages += "Message " + i + ":\n"
+                            + "Message ID: " + messageID + "\n"
+                            + "Message Hash: " + messageHash + "\n"
+                            + "Recipient: " + recipient + "\n"
+                            + "Text: " + message + "\n";
+
+                    // Add to total character count
+                    totalChars += message.length(); // <-- count only the message text
                 }
-                else if (input2.equals("2")) {
-                    JOptionPane.showMessageDialog(null, "Coming Soon!");
+
+                // Ask what to do with the messages
+                String[] options = {"Send Message", "Disregard Message", "Store Message to send later"};
+                int choice = JOptionPane.showOptionDialog(null,
+                        "All Messages:\n\n" + allMessages + "\nChoose what to do:",
+                        "QuickChat",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+
+                if (choice == 0) {
+                    JOptionPane.showMessageDialog(null, "Messages sent successfully!\nTotal characters used: " + totalChars);
+                } else if (choice == 1) {
+                    JOptionPane.showMessageDialog(null, "Messages disregarded.");
+                } else if (choice == 2) {
+                    JOptionPane.showMessageDialog(null, "Messages stored to send later.\nTotal characters used: " + totalChars);
+
+                    // Save messages in JSON format
+                    try {
+                        String[] messagesArray = allMessages.split("\n\n");
+                        String jsonMessages = "[\n";
+
+                        for (int j = 0; j < messagesArray.length; j++) {
+                            String msg = messagesArray[j].replace("\n", "\", \"").replace(": ", "\": \"");
+                            jsonMessages += "  {\n    \"" + msg + "\"\n  }";
+                            if (j != messagesArray.length - 1) {
+                                jsonMessages += ",\n";
+                            }
+                        }
+
+                        jsonMessages += "\n]\n";
+
+                        java.io.FileWriter writer = new java.io.FileWriter("messages.json", true); // append
+                        writer.write(jsonMessages);
+                        writer.close();
+
+                        JOptionPane.showMessageDialog(null, "Messages saved to messages.json successfully!");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Error saving messages: " + e.getMessage());
+                    }
                 }
-                else if (input2.equals("3")) {
-                    JOptionPane.showMessageDialog(null, "Exiting QuickChat. Goodbye!");
-                    break;
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Invalid choice! Please type 1, 2, or 3.");
-    
-                }
-                                }
+            }
+
+            else if (input2.equals("2")) {
+                JOptionPane.showMessageDialog(null, "Coming Soon!");
+            }
+
+            else if (input2.equals("3")) {
+                JOptionPane.showMessageDialog(null, "Exiting QuickChat. Goodbye!");
+                break;
+            }
+
+            else {
+                JOptionPane.showMessageDialog(null, "Invalid choice! Please type 1, 2, or 3.");
+            }
+        } 
 
     /*
     References:
@@ -184,28 +304,28 @@ public class ChatAppPoe1 {
     
     */
     
-    
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+      
 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     }
     
     
