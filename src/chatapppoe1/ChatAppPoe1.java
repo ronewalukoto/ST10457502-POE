@@ -152,7 +152,7 @@ public class ChatAppPoe1 {
                     
                             }
                 
-                
+         //This is wherew the app truly starts       
                 
 
         Random messID = new Random();
@@ -169,54 +169,43 @@ public class ChatAppPoe1 {
                 );
 
                 String allMessages = "";
-                int totalChars = 0; // <-- Counter for total characters
+                int totalChars = 0; // Total number of characters used
 
                 for (int i = 1; i <= numbTexts; i++) {
 
-                    // 1. Make 10 digit ID
+                    // 1. Creates random 10 digit ID
                     String messageID = "";
                     for (int j = 0; j < 10; j++) {
                         int num = messID.nextInt(10);
                         messageID = messageID + num;
                     }
 
-                    // 2. Enter recipient first
-                    String recipient = JOptionPane.showInputDialog(null, "Enter recipient phone number (max 10 digits):");
+                    // 2. The user enters the number of the recipient
+                    
+                    String recipient = "";
+                while (true) {
+                    recipient = JOptionPane.showInputDialog(null, "Enter recipient phone number (max 10 digits):");
+                        if (!recipient.isEmpty() && recipient.length() <= 10) {
+                            break; // valid number
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Invalid number. Please enter 1–10 digits.");
+                                }
+                            }
 
-                    // 3. Enter message text
+                    
+
+                    // 3. Thee user then enters a message
                     String message = JOptionPane.showInputDialog(null, "Enter message " + i + ":");
 
-                    // 4. Make message hash
+                    // 4.  message hash
                     String[] parts = message.split(" ");
                     String firstWord = parts[0].toUpperCase();
                     String lastWord = parts[parts.length - 1].toUpperCase();
                     String messageHash = messageID.substring(0, 2) + ":" + i + " " + firstWord + " " + lastWord;
 
-                    // Validation in order: messageID → messageHash → recipient → message
-
-                    // a) Check messageID
-                    if (messageID.length() != 10) {
-                        JOptionPane.showMessageDialog(null, "Invalid message ID!");
-                        i--; // redo this message
-                        continue;
-                    }
-
-                    // b) Check messageHash
-                    if (messageHash.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Message hash is empty!");
-                        i--;
-                        continue;
-                    }
-
-                    // c) Check recipient
-                    if (recipient.length() > 10 || recipient.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Invalid number. Please enter 1-10 digits.");
-                        i--; // redo this message
-                        continue;
-                    }
-
+                    // Validation, here the user will check if their message is right
                     // d) Check actual message
-                    if (message.length() > 250 || message.isEmpty()) {
+                    if (message.length() > 250 || message.length() <1) {
                         JOptionPane.showMessageDialog(null, "Please enter a message of 1-250 characters.");
                         i--; // redo this message
                         continue;
@@ -224,18 +213,18 @@ public class ChatAppPoe1 {
 
                     JOptionPane.showMessageDialog(null, "Message " + i + " saved!");
 
-                    // Add message to allMessages
+                    // Displays all the messages to the use4
                     allMessages += "Message " + i + ":\n"
                             + "Message ID: " + messageID + "\n"
                             + "Message Hash: " + messageHash + "\n"
                             + "Recipient: " + recipient + "\n"
                             + "Text: " + message + "\n";
 
-                    // Add to total character count
-                    totalChars += message.length(); // <-- count only the message text
+                    //Total character count
+                    totalChars += message.length();
                 }
 
-                // Ask what to do with the messages
+                // AskS what the user do with the messages
                 String[] options = {"Send Message", "Disregard Message", "Store Message to send later"};
                 int choice = JOptionPane.showOptionDialog(null,
                         "All Messages:\n\n" + allMessages + "\nChoose what to do:",
@@ -253,7 +242,7 @@ public class ChatAppPoe1 {
                 } else if (choice == 2) {
                     JOptionPane.showMessageDialog(null, "Messages stored to send later.\nTotal characters used: " + totalChars);
 
-                    // Save messages in JSON format
+                    // Storing messages in the JSON format
                     try {
                         String[] messagesArray = allMessages.split("\n\n");
                         String jsonMessages = "[\n";
@@ -284,12 +273,12 @@ public class ChatAppPoe1 {
             }
 
             else if (input2.equals("3")) {
-                JOptionPane.showMessageDialog(null, "Exiting QuickChat. Goodbye!");
+                JOptionPane.showMessageDialog(null, "Exiting QuickChat");
                 break;
             }
 
             else {
-                JOptionPane.showMessageDialog(null, "Invalid choice! Please type 1, 2, or 3.");
+                JOptionPane.showMessageDialog(null, "Invalid! Please type 1, 2, or 3.");
             }
         } 
 
