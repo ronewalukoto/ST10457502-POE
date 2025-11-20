@@ -146,6 +146,7 @@ public class ChatAppPoe1 {
                             storedMessages.add(jo);
                         }
                     }
+<<<<<<< HEAD
                 }
             } catch (Exception e) {
                 // If parsing fails, we continue with empty storedMessages
@@ -164,6 +165,28 @@ public class ChatAppPoe1 {
                 System.out.println("Invalid input");
             }
         }
+=======
+        
+        //3. Application Excution
+        
+            System.out.println("\n--- Press ENTER to start QuickChat :) ---\n");
+        
+                while (true) {
+                    
+                    startApp = input.nextLine();
+                    
+                    if (startApp.trim().isEmpty()) {
+                        System.out.println("QuickChat Open, You can minimize this window");
+                        break;
+                    } else {
+                        System.out.println("Invalid input");
+                    }
+                    
+                            }
+                
+         //This is wherew the app truly starts       
+                
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
 
         Random messID = new Random();
         int numbTexts = 0;
@@ -189,19 +212,24 @@ public class ChatAppPoe1 {
                 }
 
                 String allMessages = "";
-                int totalChars = 0; // <-- Counter for total characters
+                int totalChars = 0; // Total number of characters used
 
                 // We'll collect each message block separately so we can store them individually
                 ArrayList<String> messageBlocks = new ArrayList<>();
 
+<<<<<<< HEAD
                 for (int i = 1; i <= numbTexts; i++) {
                     // 1. Make 10 digit ID
+=======
+                    // 1. Creates random 10 digit ID
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
                     String messageID = "";
                     for (int j = 0; j < 10; j++) {
                         int num = messID.nextInt(10);
                         messageID = messageID + num;
                     }
 
+<<<<<<< HEAD
                     // 2. Enter recipient first (validated max 10 digits)
                     String recipient = "";
                     while (true) {
@@ -219,14 +247,30 @@ public class ChatAppPoe1 {
                     if (recipient == null) {
                         break; // cancel outer loop
                     }
+=======
+                    // 2. The user enters the number of the recipient
+                    
+                    String recipient = "";
+                while (true) {
+                    recipient = JOptionPane.showInputDialog(null, "Enter recipient phone number (max 10 digits):");
+                        if (!recipient.isEmpty() && recipient.length() <= 10) {
+                            break; // valid number
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Invalid number. Please enter 1–10 digits.");
+                                }
+                            }
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
 
-                    // 3. Enter message text
+                    
+
+                    // 3. Thee user then enters a message
                     String message = JOptionPane.showInputDialog(null, "Enter message " + i + ":");
                     if (message == null) {
                         JOptionPane.showMessageDialog(null, "Message creation cancelled. Returning to menu.");
                         break;
                     }
 
+<<<<<<< HEAD
                     // 4. Make message hash
                     // Ensure message has at least one word
                     String[] parts = message.trim().split("\\s+");
@@ -254,6 +298,17 @@ public class ChatAppPoe1 {
                     }
 
                     if (message.length() > 250 || message.isEmpty()) {
+=======
+                    // 4.  message hash
+                    String[] parts = message.split(" ");
+                    String firstWord = parts[0].toUpperCase();
+                    String lastWord = parts[parts.length - 1].toUpperCase();
+                    String messageHash = messageID.substring(0, 2) + ":" + i + " " + firstWord + " " + lastWord;
+
+                    // Validation, here the user will check if their message is right
+                    // d) Check actual message
+                    if (message.length() > 250 || message.length() <1) {
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
                         JOptionPane.showMessageDialog(null, "Please enter a message of 1-250 characters.");
                         i--; // redo this message
                         continue;
@@ -261,20 +316,30 @@ public class ChatAppPoe1 {
 
                     JOptionPane.showMessageDialog(null, "Message " + i + " saved!");
 
+<<<<<<< HEAD
                     // Build human-readable block for display and for storing to arrays
                     String block = "Message " + i + ":\n"
+=======
+                    // Displays all the messages to the use4
+                    allMessages += "Message " + i + ":\n"
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
                             + "Message ID: " + messageID + "\n"
                             + "Message Hash: " + messageHash + "\n"
                             + "Recipient: " + recipient + "\n"
                             + "Text: " + message + "\n";
 
+<<<<<<< HEAD
                     allMessages += block + "\n";
                     messageBlocks.add(block);
 
                     totalChars += message.length(); // <-- count only the message text
+=======
+                    //Total character count
+                    totalChars += message.length();
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
                 }
 
-                // Ask what to do with the messages
+                // AskS what the user do with the messages
                 String[] options = {"Send Message", "Disregard Message", "Store Message to send later"};
                 int choice = JOptionPane.showOptionDialog(null,
                         "All Messages:\n\n" + allMessages + "\nChoose what to do:",
@@ -309,7 +374,13 @@ public class ChatAppPoe1 {
                     }
                     JOptionPane.showMessageDialog(null, "Messages disregarded.");
                 } else if (choice == 2) {
+<<<<<<< HEAD
                     // STORE - write messages to JSON file and add to storedMessages list
+=======
+                    JOptionPane.showMessageDialog(null, "Messages stored to send later.\nTotal characters used: " + totalChars);
+
+                    // Storing messages in the JSON format
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
                     try {
                         // Load existing array if present
                         JSONArray jsonArray = new JSONArray();
@@ -366,6 +437,7 @@ public class ChatAppPoe1 {
                     JOptionPane.showMessageDialog(null, sb.toString());
                 }
 
+<<<<<<< HEAD
             } else if (input2.equals("3")) {
                 // Message Tools - provides a sub-menu for tasks (a-f)
                 String toolMenu = "Message Tools:\n"
@@ -548,12 +620,17 @@ public class ChatAppPoe1 {
 
             } else if (input2.equals("4")) {
                 JOptionPane.showMessageDialog(null, "Exiting QuickChat. Goodbye!");
+=======
+            else if (input2.equals("3")) {
+                JOptionPane.showMessageDialog(null, "Exiting QuickChat");
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
                 break;
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid choice! Please type 1, 2, 3 or 4.");
             }
         } // end main loop
 
+<<<<<<< HEAD
         // Clean up scanner
         input.close();
     } // end main
@@ -570,6 +647,10 @@ public class ChatAppPoe1 {
                 String val = line.substring(idx + 1).trim();
                 // For "Message N" header lines like "Message 1:" the key will be "Message 1"
                 jo.put(key, val);
+=======
+            else {
+                JOptionPane.showMessageDialog(null, "Invalid! Please type 1, 2, or 3.");
+>>>>>>> 5615506073dcb6a5951141403a6838c5f2fe4d22
             }
         }
         // Remove the "Message N" header if present as it's not a data field
